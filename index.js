@@ -40,7 +40,7 @@ function loadEnvFile(filePath) {
 }
 
 function showHelp() {
-  console.log(`Usage: senv [options] <command> [args...]
+  console.log(`Usage: serun [options] <command> [args...]
 
 Options:
   --help, -h           Show this help message

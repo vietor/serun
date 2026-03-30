@@ -1,10 +1,10 @@
 {
-  "name": "senv",
+  "name": "serun",
   "version": "1.0.0",
   "description": "Load environment variables from ~/.senv and run commands with them",
   "main": "index.js",
   "bin": {
-    "senv": "./index.js"
+    "serun": "./index.js"
   },
   "scripts": {
     "test": "echo \"No tests specified\""
