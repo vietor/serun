@@ -10,7 +10,7 @@ serun <command> [args...]
 
 ## Configuration File
 
-Create `~/.serun` with key-value pairs:
+Create `~/.serun/xxxx` with key-value pairs:
 
 ```
 # This is a comment

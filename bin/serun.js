@@ -66,6 +66,11 @@ function main() {
   }
 
   const envs = loadAllEnvs(program.channel);
+
+  if (!program.command) {
+    showHelp();
+  }
+
   executeCommand(program.command, program.commandArgs, envs);
 }
 
