@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
 
-const SENV_FILE = path.join(process.env.HOME || process.env.USERPROFILE, '.senv');
+const SENV_DIR = path.join(process.env.HOME || process.env.USERPROFILE, '.senv');
 
 function loadEnvFile(filePath) {
   const envs = {};
@@ -43,9 +43,11 @@ function showHelp() {
   console.log(`Usage: senv [options] <command> [args...]
 
 Options:
-  --help, -h     Show this help message
+  --help, -h           Show this help message
+  --channel, -c <name> Load environment variables from ~/.senv/<name> after ~/.senv/default
 
-Load environment variables from ~/.senv and run commands with them.
+Load environment variables from ~/.senv/default and run commands with them.
+Optionally load a channel-specific file after the default file.
 `);
   process.exit(0);
 }
@@ -57,7 +59,29 @@ function main() {
     showHelp();
   }
 
-  const envs = loadEnvFile(SENV_FILE);
+  let channel = null;
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--channel' && i + 1 < args.length) {
+      channel = args[i + 1];
+      args.splice(i, 2);
+      break;
+    } else if (args[i] === '-c' && i + 1 < args.length) {
+      channel = args[i + 1];
+      args.splice(i, 2);
+      break;
+    }
+  }
+
+  const defaultFile = path.join(SENV_DIR, 'default');
+  const envs = loadEnvFile(defaultFile);
+
+  if (channel) {
+    const channelFile = path.join(SENV_DIR, channel);
+    const channelEnvs = loadEnvFile(channelFile);
+    Object.assign(envs, channelEnvs);
+  }
+
   const command = args[0];
   const commandArgs = args.slice(1);
 
