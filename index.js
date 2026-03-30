@@ -39,12 +39,22 @@ function loadEnvFile(filePath) {
   return envs;
 }
 
+function showHelp() {
+  console.log(`Usage: senv [options] <command> [args...]
+
+Options:
+  --help, -h     Show this help message
+
+Load environment variables from ~/.senv and run commands with them.
+`);
+  process.exit(0);
+}
+
 function main() {
   const args = process.argv.slice(2);
 
-  if (args.length === 0) {
-    console.error('Usage: senv <command> [args...]');
-    process.exit(1);
+  if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
+    showHelp();
   }
 
   const envs = loadEnvFile(SENV_FILE);
