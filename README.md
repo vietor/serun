@@ -1,6 +1,6 @@
 # serun
 
-Load environment variables from `~/.serun` and run commands with them.
+Load environment variables from `~/.serun/` and run commands with them.
 
 ## Usage
 

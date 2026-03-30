@@ -7,7 +7,7 @@ function showHelp() {
 
 Options:
   --help, -h           Show this help message
-  --channel, -c <name> Load environment variables from ~/.serun/<name> after ~/.serun/default
+  --channel, -c <name> Load environment variables from ~/.serun/<name>
 
 Load environment variables from ~/.serun/default and run commands with them.
 Optionally load a channel-specific file after the default file.
@@ -15,7 +15,7 @@ Optionally load a channel-specific file after the default file.
   process.exit(0);
 }
 
-function parseCommandLine(args) {
+function parseArguments(args) {
   const program = {
     help: false,
     channel: null,
@@ -59,8 +59,8 @@ function parseCommandLine(args) {
   return program;
 }
 
-function main() {
-  const program = parseCommandLine(process.argv.slice(2));
+function main(args) {
+  const program = parseArguments(args);
   if (program.help) {
     showHelp();
   }
@@ -74,4 +74,4 @@ function main() {
   executeCommand(program.command, program.commandArgs, envs);
 }
 
-main();
+main(process.argv.slice(2));
