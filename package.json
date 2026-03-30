@@ -1,0 +1,14 @@
+{
+  "name": "senv",
+  "version": "1.0.0",
+  "description": "Load environment variables from ~/.senv and run commands with them",
+  "main": "index.js",
+  "bin": {
+    "senv": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"No tests specified\""
+  },
+  "keywords": ["cli", "environment"],
+  "license": "MIT"
+}
