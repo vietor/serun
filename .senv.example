@@ -1,6 +1,0 @@
-# Example .senv file
-# Lines starting with # are comments
-# Format: KEY=VALUE
-
-# API_KEY=your-api-key-here
-# DEBUG=true
