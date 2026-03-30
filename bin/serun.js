@@ -7,9 +7,9 @@ function showHelp() {
 
 Options:
   --help, -h           Show this help message
-  --channel, -c <name> Load environment variables from ~/.senv/<name> after ~/.senv/default
+  --channel, -c <name> Load environment variables from ~/.serun/<name> after ~/.serun/default
 
-Load environment variables from ~/.senv/default and run commands with them.
+Load environment variables from ~/.serun/default and run commands with them.
 Optionally load a channel-specific file after the default file.
 `);
   process.exit(0);

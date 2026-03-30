@@ -1,16 +1,16 @@
-# senv
+# serun
 
-Load environment variables from `~/.senv` and run commands with them.
+Load environment variables from `~/.serun` and run commands with them.
 
 ## Usage
 
 ```bash
-senv <command> [args...]
+serun <command> [args...]
 ```
 
 ## Configuration File
 
-Create `~/.senv` with key-value pairs:
+Create `~/.serun` with key-value pairs:
 
 ```
 # This is a comment
@@ -22,6 +22,6 @@ DEBUG=true
 ## Example
 
 ```bash
-senv npm run dev
-senv node app.js
+serun npm run dev
+serun node app.js
 ```
