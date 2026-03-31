@@ -6,11 +6,18 @@ function showHelp() {
   console.log(`Usage: serun [options] <command> [args...]
 
 Options:
-  --help, -h           Show this help message
-  --channel, -c <name> Load environment variables from ~/.serun/<name>
+  -h, --help           Show this help message
+  -c, --channel <name> Load additional environment from ~/.serun/<name>
 
-Load environment variables from ~/.serun/default and run commands with them.
-Optionally load a channel-specific file after the default file.
+Description:
+  Load encrypted environment variables from ~/.serun/global and optionally
+  from a channel-specific file, then execute the specified command with
+  those variables injected.
+
+Examples:
+  serun npm install          Run command with global environment
+  serun -c dev npm run       Run with global + ~/.serun/dev variables
+  serun --channel prod node  Run with global + ~/.serun/prod variables
 `);
   process.exit(0);
 }

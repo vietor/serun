@@ -9,13 +9,19 @@ function showHelp() {
   console.log(`Usage: serun-config [options] <action> [args...]
 
 Options:
-  --help, -h           Show this help message
-  --channel, -c <name> Environment variables with ~/.serun/<name>
+  -h, --help           Show this help message
+  -c, --channel <name> Target config file ~/.serun/<name> (default: global)
 
 Actions:
-  set <key> <value>    Set  environment variables
+  set <key> <value>    Set an environment variable
 
-Config environment variables from ~/.serun/default and ~/.serun/<channel>
+Description:
+  Configure encrypted environment variables for use with serun.
+  Variables are stored in ~/.serun/global or a channel-specific file.
+
+Examples:
+  serun-config set API_KEY abc123       Set global variable
+  serun-config -c dev set DB_URL pg://  Set variable in ~/.serun/dev
 `);
   process.exit(0);
 }
