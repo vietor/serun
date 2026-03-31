@@ -1,7 +1,7 @@
 {
   "name": "serun",
-  "version": "1.0.0",
-  "description": "Load environment variables from ~/.serun/ and run commands with them",
+  "version": "0.9.1",
+  "description": "Secure environment variable runner with encrypted storage",
   "main": "./lib/index.js",
   "bin": {
     "serun": "./bin/serun.js",
@@ -10,6 +10,25 @@
   "scripts": {
     "test": "echo \"No tests specified\""
   },
-  "keywords": ["cli", "environment"],
-  "license": "MIT"
+  "keywords": [
+    "cli",
+    "environment",
+    "env",
+    "secret",
+    "encryption",
+    "security"
+  ],
+  "author": "Vietor Liu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vietor/serun.git"
+  },
+  "homepage": "https://github.com/vietor/serun",
+  "bugs": {
+    "url": "https://github.com/vietor/serun/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
 }
