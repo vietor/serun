@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "bin": {
     "serun": "./bin/serun.js",
-    "serun-config": "./bin/serun-config.js"
+    "serun-cfg": "./bin/serun-cfg.js"
   },
   "scripts": {
     "test": "echo \"No tests specified\""

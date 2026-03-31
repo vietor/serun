@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { loadAllEnvs, executeCommand, requireSystemEnv } = require("../lib");
+const { requireSysEnv, loadAllEnvs, executeCommand } = require("../lib");
 
 function showHelp() {
   console.log(`Usage: serun [options] <command> [args...]
@@ -67,7 +67,7 @@ function parseArguments(args) {
 }
 
 function main(args) {
-  const password = requireSystemEnv("SERUN_SAFEKEY");
+  const password = requireSysEnv("SERUN_SAFEKEY");
 
   const program = parseArguments(args);
   if (program.help) {
