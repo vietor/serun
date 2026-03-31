@@ -1,5 +1,9 @@
 # serun
 
+![](https://img.shields.io/badge/Node.js-18%2B-brightgreen?style=flat-square) [![npm]](https://www.npmjs.com/package/@vietor/serun)
+
+[npm]: https://img.shields.io/npm/v/@vietr/serun.svg?style=flat-square
+
 Secure environment variable runner with encrypted storage.
 
 ## Installation
