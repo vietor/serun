@@ -1,5 +1,5 @@
 {
-  "name": "serun",
+  "name": "@vietor/serun",
   "version": "0.9.1",
   "description": "Secure environment variable runner with encrypted storage",
   "main": "./lib/index.js",
