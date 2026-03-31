@@ -66,14 +66,14 @@ function parseArguments(args) {
 }
 
 function main(args) {
-  const password = requireSysEnv("SERUN_SAFEKEY");
+  const safeKey = requireSysEnv("SERUN_SAFEKEY");
 
   const program = parseArguments(args);
   if (program.help) {
     showHelp();
   }
 
-  const envs = loadAllEnvs(password, program.channel);
+  const envs = loadAllEnvs(safeKey, program.channel);
 
   if (!program.command) {
     showHelp();

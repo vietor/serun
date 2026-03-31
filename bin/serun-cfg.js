@@ -108,7 +108,7 @@ function readEnvs(filePath) {
 }
 
 function main(args) {
-  const password = requireSysEnv("SERUN_SAFEKEY");
+  const safeKey = requireSysEnv("SERUN_SAFEKEY");
 
   const program = parseArguments(args);
   if (program.help) {
@@ -119,17 +119,17 @@ function main(args) {
     if (program.actionArgs.length != 1) {
       showHelp();
     }
-    saveEnvs(password, program.channel, readEnvs(program.actionArgs[0]));
+    saveEnvs(safeKey, program.channel, readEnvs(program.actionArgs[0]));
   } else if (program.action == "set") {
     if (program.actionArgs.length != 2) {
       showHelp();
     }
 
-    saveEnvs(password, program.channel, {
+    saveEnvs(safeKey, program.channel, {
       [program.actionArgs[0]]: program.actionArgs[1],
     });
   } else if (program.action == "show") {
-    showEnvs(loadEnvs(password, program.channel));
+    showEnvs(loadEnvs(safeKey, program.channel));
   } else {
     showHelp();
   }
