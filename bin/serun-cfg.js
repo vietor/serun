@@ -36,21 +36,20 @@ function parseArguments(args) {
 
   if (args.length === 0) {
     program.help = true;
+    return program;
   }
 
-  for (let i = 0; i < args.length; i++) {
+  let i = 0;
+  while (i < args.length && args[i].startsWith("-")) {
     const name = args[i];
-    if (!name.startsWith("-")) {
-      break;
-    }
 
     if (name === "--help" || name === "-h") {
       program.help = true;
-      args.splice(i, 1);
+      i++;
     } else if (name === "--channel" || name === "-c") {
       if (i + 1 < args.length) {
         program.channel = args[i + 1];
-        args.splice(i, 2);
+        i += 2;
       } else {
         showHelp();
       }
@@ -59,12 +58,13 @@ function parseArguments(args) {
     }
   }
 
-  if (args.length > 0) {
-    program.action = args[0];
+  if (i < args.length) {
+    program.action = args[i];
+    i++;
   }
 
-  if (args.length > 1) {
-    program.actionArgs = args.slice(1);
+  if (i < args.length) {
+    program.actionArgs = args.slice(i);
   }
 
   return program;
