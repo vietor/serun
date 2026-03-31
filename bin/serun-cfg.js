@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require("fs");
-const { requireSysEnv, loadEnvs, saveEnv, saveEnvs } = require("../lib");
+const { requireSysEnv, loadEnvs, saveEnvs } = require("../lib");
 
 function showHelp() {
   console.log(`Usage: serun-cfg [options] <action> [args...]
@@ -125,12 +125,9 @@ function main(args) {
       showHelp();
     }
 
-    saveEnv(
-      password,
-      program.channel,
-      program.actionArgs[0],
-      program.actionArgs[1],
-    );
+    saveEnvs(password, program.channel, {
+      [program.actionArgs[0]]: program.actionArgs[1],
+    });
   } else if (program.action == "show") {
     showEnvs(loadEnvs(password, program.channel));
   } else {
