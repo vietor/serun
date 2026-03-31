@@ -4,7 +4,8 @@
   "description": "Load environment variables from ~/.serun/ and run commands with them",
   "main": "./lib/index.js",
   "bin": {
-    "serun": "./bin/serun.js"
+    "serun": "./bin/serun.js",
+    "serun-config": "./bin/serun-config.js"
   },
   "scripts": {
     "test": "echo \"No tests specified\""

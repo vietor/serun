@@ -1,16 +1,21 @@
 #!/usr/bin/env node
 
-const { loadAllEnvs, executeCommand, requireSystemEnv } = require("../lib");
+const {
+  requireSystemEnv,
+  saveEnvToFile,
+} = require("../lib");
 
 function showHelp() {
-  console.log(`Usage: serun [options] <command> [args...]
+  console.log(`Usage: serun-config [options] <action> [args...]
 
 Options:
   --help, -h           Show this help message
-  --channel, -c <name> Load environment variables from ~/.serun/<name>
+  --channel, -c <name> Environment variables with ~/.serun/<name>
 
-Load environment variables from ~/.serun/default and run commands with them.
-Optionally load a channel-specific file after the default file.
+Actions:
+  set <key> <value>    Set  environment variables
+
+Config environment variables from ~/.serun/default and ~/.serun/<channel>
 `);
   process.exit(0);
 }
@@ -19,8 +24,8 @@ function parseArguments(args) {
   const program = {
     help: false,
     channel: null,
-    command: null,
-    commandArgs: [],
+    action: null,
+    actionArgs: [],
   };
 
   if (args.length === 0) {
@@ -49,11 +54,11 @@ function parseArguments(args) {
   }
 
   if (args.length > 0) {
-    program.command = args[0];
+    program.action = args[0];
   }
 
   if (args.length > 1) {
-    program.commandArgs = args.slice(1);
+    program.actionArgs = args.slice(1);
   }
 
   return program;
@@ -67,13 +72,20 @@ function main(args) {
     showHelp();
   }
 
-  const envs = loadAllEnvs(password, program.channel);
+  if (program.action == "set") {
+    if (program.actionArgs.length != 2) {
+      showHelp();
+    }
 
-  if (!program.command) {
+    saveEnvToFile(
+      password,
+      program.channel,
+      program.actionArgs[0],
+      program.actionArgs[1],
+    );
+  } else {
     showHelp();
   }
-
-  executeCommand(program.command, program.commandArgs, envs);
 }
 
 main(process.argv.slice(2));
