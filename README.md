@@ -5,7 +5,7 @@ Secure environment variable runner with encrypted storage.
 ## Installation
 
 ```bash
-npm install -g serun
+npm install -g @vietor/serun
 ```
 
 ## Quick Start
