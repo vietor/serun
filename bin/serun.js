@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
-const { requireSysEnv, loadAllEnvs, executeCommand } = require("../lib");
+const {
+  parseProgram,
+  readSysEnv,
+  loadAllEnvs,
+  executeCommand,
+} = require("../lib");
 
 function showHelp() {
   console.log(`Usage: serun [options] <command> [args...]
@@ -21,65 +26,24 @@ Examples:
   process.exit(0);
 }
 
-function parseArguments(args) {
-  const program = {
-    help: false,
-    channel: null,
-    command: null,
-    commandArgs: [],
-  };
-
-  if (args.length === 0) {
-    program.help = true;
-    return program;
-  }
-
-  let i = 0;
-  while (i < args.length && args[i].startsWith("-")) {
-    const name = args[i];
-
-    if (name === "--help" || name === "-h") {
-      program.help = true;
-      i++;
-    } else if (name === "--channel" || name === "-c") {
-      if (i + 1 < args.length) {
-        program.channel = args[i + 1];
-        i += 2;
-      } else {
-        showHelp();
-      }
-    } else {
-      showHelp();
-    }
-  }
-
-  if (i < args.length) {
-    program.command = args[i];
-    i++;
-  }
-
-  if (i < args.length) {
-    program.commandArgs = args.slice(i);
-  }
-
-  return program;
-}
-
 function main(args) {
-  const safeKey = requireSysEnv("SERUN_SAFEKEY");
+  const program = parseProgram(args, [
+    ["help", "h", false],
+    ["channel", "c", true],
+  ]);
 
-  const program = parseArguments(args);
-  if (program.help) {
+  if (
+    program.empty ||
+    program.options.help ||
+    program.errorMessage ||
+    !program.command
+  ) {
     showHelp();
   }
 
-  const envs = loadAllEnvs(safeKey, program.channel);
-
-  if (!program.command) {
-    showHelp();
-  }
-
-  executeCommand(program.command, program.commandArgs, envs);
+  const safeKey = readSysEnv("SERUN_SAFEKEY");
+  const allEnvs = loadAllEnvs(safeKey, program.options.channel);
+  executeCommand(program.command, program.commandArgs, allEnvs);
 }
 
 main(process.argv.slice(2));

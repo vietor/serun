@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require("fs");
-const { requireSysEnv, loadEnvs, saveEnvs } = require("../lib");
+const { parseProgram, readSysEnv, loadEnvs, saveEnvs } = require("../lib");
 
 function showHelp() {
   console.log(`Usage: serun-cfg [options] <action> [args...]
@@ -24,50 +24,6 @@ Examples:
   serun-cfg -c dev set DB_URL pg://   Set variable in ~/.serun/dev
 `);
   process.exit(0);
-}
-
-function parseArguments(args) {
-  const program = {
-    help: false,
-    channel: null,
-    action: null,
-    actionArgs: [],
-  };
-
-  if (args.length === 0) {
-    program.help = true;
-    return program;
-  }
-
-  let i = 0;
-  while (i < args.length && args[i].startsWith("-")) {
-    const name = args[i];
-
-    if (name === "--help" || name === "-h") {
-      program.help = true;
-      i++;
-    } else if (name === "--channel" || name === "-c") {
-      if (i + 1 < args.length) {
-        program.channel = args[i + 1];
-        i += 2;
-      } else {
-        showHelp();
-      }
-    } else {
-      showHelp();
-    }
-  }
-
-  if (i < args.length) {
-    program.action = args[i];
-    i++;
-  }
-
-  if (i < args.length) {
-    program.actionArgs = args.slice(i);
-  }
-
-  return program;
 }
 
 function showEnvs(envs) {
@@ -108,28 +64,40 @@ function readEnvs(filePath) {
 }
 
 function main(args) {
-  const safeKey = requireSysEnv("SERUN_SAFEKEY");
+  const program = parseProgram(args, [
+    ["help", "h", false],
+    ["channel", "c", true],
+  ]);
 
-  const program = parseArguments(args);
-  if (program.help) {
+  if (
+    program.empty ||
+    program.options.help ||
+    program.errorMessage ||
+    !program.command
+  ) {
     showHelp();
   }
 
-  if (program.action == "import") {
-    if (program.actionArgs.length != 1) {
+  const safeKey = readSysEnv("SERUN_SAFEKEY");
+  if (program.command === "import") {
+    if (program.commandArgs.length != 1) {
       showHelp();
     }
-    saveEnvs(safeKey, program.channel, readEnvs(program.actionArgs[0]));
-  } else if (program.action == "set") {
-    if (program.actionArgs.length != 2) {
+    saveEnvs(
+      safeKey,
+      program.options.channel,
+      readEnvs(program.commandArgs[0]),
+    );
+  } else if (program.command === "set") {
+    if (program.commandArgs.length != 2) {
       showHelp();
     }
 
-    saveEnvs(safeKey, program.channel, {
-      [program.actionArgs[0]]: program.actionArgs[1],
+    saveEnvs(safeKey, program.options.channel, {
+      [program.commandArgs[0]]: program.commandArgs[1],
     });
-  } else if (program.action == "show") {
-    showEnvs(loadEnvs(safeKey, program.channel));
+  } else if (program.command === "show") {
+    showEnvs(loadEnvs(safeKey, program.options.channel));
   } else {
     showHelp();
   }
