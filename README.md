@@ -66,6 +66,8 @@ Options:
 Actions:
   import <file>        Import environment variables from .env format file
   set <key> <value>    Set an environment variable
+  del <key1> [key2...] Delete environment variables
+  delete               Alias for del
   show                 Show saved environment variables
 
 Description:
@@ -73,8 +75,9 @@ Description:
   Variables are stored in ~/.serun/global or a channel-specific file.
 
 Examples:
-  serun-cfg set API_KEY abc123        Set global variable
-  serun-cfg -c dev set DB_URL pg://   Set variable in ~/.serun/dev
+  serun-cfg set API_KEY abc123      Set global variable
+  serun-cfg -c dev set DB_URL pg:// Set variable in ~/.serun/dev
+  serun-cfg del API_KEY             Delete variable
 ```
 
 ## Environment Variables
