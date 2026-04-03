@@ -7,6 +7,7 @@ const {
   loadEnvs,
   saveEnvs,
   deleteEnvs,
+  listChannels,
 } = require("../lib");
 
 function showHelp() {
@@ -17,20 +18,23 @@ Options:
   -c, --channel <name> Target config file ~/.serun/<name> (default: global)
 
 Actions:
-  import <file>        Import environment variables from .env format file
+  import <file>        Import environment variables from a file (e.g., .env)
   set <key> <value>    Set an environment variable
-  del <key1> [key2...] Delete environment variables
+  del <key1> [key2...] Delete one or more environment variables
   delete               Alias for del
-  show                 Show saved environment variables
+  show                 Show all saved environment variables from the config
+  list                 List all channel names (ignores -c option)
 
 Description:
-  Configure encrypted environment variables for use with serun.
-  Variables are stored in ~/.serun/global or a channel-specific file.
+  Configure encrypted environment variables for serun.
+  Variables are stored in ~/.serun/global or channel-specific files.
 
 Examples:
-  serun-cfg set API_KEY abc123      Set global variable
-  serun-cfg -c dev set DB_URL pg:// Set variable in ~/.serun/dev
-  serun-cfg del API_KEY             Delete variable
+  serun-cfg set API_KEY abc123        Set global variable
+  serun-cfg -c dev set DB_URL pg://   Set variable in dev channel
+  serun-cfg -c prod show              Show variables in prod channel
+  serun-cfg del API_KEY DB_URL        Delete multiple variables
+  serun-cfg import ./project.env      Import from .env file
 `);
   process.exit(0);
 }
@@ -113,6 +117,11 @@ function main(args) {
     deleteEnvs(safeKey, program.options.channel, program.commandArgs);
   } else if (program.command === "show") {
     showEnvs(loadEnvs(safeKey, program.options.channel));
+  } else if (program.command === "list") {
+    const channels = listChannels();
+    if (channels.length > 0) {
+      console.log(channels.join(" "));
+    }
   } else {
     showHelp();
   }
