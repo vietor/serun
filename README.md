@@ -40,6 +40,7 @@ Usage: serun [options] <command> [args...]
 
 Options:
   -h, --help           Show help message
+  -V, --version        Show version number
   -c, --channel <name> Load additional env from ~/.serun/<name>
 
 Description:
@@ -61,6 +62,7 @@ Usage: serun-cfg [options] <action> [args...]
 
 Options:
   -h, --help           Show help message
+  -V, --version        Show version number
   -c, --channel <name> Target config file ~/.serun/<name> (default: global)
 
 Actions:
