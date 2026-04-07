@@ -85,6 +85,27 @@ Examples:
   serun-cfg import ./project.env      Import from .env file
 ```
 
+### Variable References
+
+Environment variables can reference other variables using `${VAR}` syntax:
+
+```bash
+# Set base URL
+serun-cfg set BASE_URL https://api.example.com
+
+# Reference BASE_URL in another variable
+serun-cfg set API_ENDPOINT "${BASE_URL}/v1"
+# API_ENDPOINT resolves to: https://api.example.com/v1
+
+# References can use system environment variables
+serun-cfg set LOG_DIR "${HOME}/logs"
+```
+
+Notes:
+- References are resolved when `serun` loads the environment
+- If a referenced variable is not found, it resolves to an empty string
+- Multiple references in a single value are all resolved
+
 ## Environment Variables
 
 | Variable | Description |
