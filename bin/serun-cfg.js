@@ -4,8 +4,8 @@ const fs = require("fs");
 const {
   parseProgram,
   readSysEnv,
-  loadEnvs,
-  saveEnvs,
+  readEnvs,
+  updateEnvs,
   deleteEnvs,
   listChannels,
 } = require("../lib");
@@ -48,7 +48,7 @@ function showEnvs(envs) {
   });
 }
 
-function readEnvs(filePath) {
+function parseEnvFile(filePath) {
   if (!fs.existsSync(filePath)) {
     throw new Error(`File not found: ${filePath}`);
   }
@@ -105,17 +105,17 @@ function main(args) {
     if (program.commandArgs.length != 1) {
       showHelp();
     }
-    saveEnvs(
+    updateEnvs(
       safeKey,
       program.options.channel,
-      readEnvs(program.commandArgs[0]),
+      parseEnvFile(program.commandArgs[0]),
     );
   } else if (program.command === "set") {
     if (program.commandArgs.length != 2) {
       showHelp();
     }
 
-    saveEnvs(safeKey, program.options.channel, {
+    updateEnvs(safeKey, program.options.channel, {
       [program.commandArgs[0]]: program.commandArgs[1],
     });
   } else if (program.command === "del" || program.command === "delete") {
@@ -125,7 +125,7 @@ function main(args) {
 
     deleteEnvs(safeKey, program.options.channel, program.commandArgs);
   } else if (program.command === "show") {
-    showEnvs(loadEnvs(safeKey, program.options.channel));
+    showEnvs(readEnvs(safeKey, program.options.channel));
   } else if (program.command === "list") {
     const channels = listChannels();
     if (channels.length > 0) {
