@@ -1,7 +1,7 @@
 {
   "name": "@vietor/serun",
-  "version": "0.9.4",
-  "description": "Secure environment variable runner with encrypted storage",
+  "version": "0.9.5",
+  "description": "Secure environment variable runner",
   "main": "lib/index.js",
   "bin": {
     "serun": "bin/serun.js",
