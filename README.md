@@ -4,7 +4,7 @@
 
 [npm]: https://img.shields.io/npm/v/@vietor/serun.svg?style=flat-square
 
-Secure environment variable runner with encrypted storage.
+Secure environment variable runner.
 
 ## Installation
 
