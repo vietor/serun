@@ -10,11 +10,14 @@ const {
   listChannels,
 } = require("../lib");
 
+const pkg = require("../package.json");
+
 function showHelp() {
   console.log(`Usage: serun-cfg [options] <action> [args...]
 
 Options:
   -h, --help           Show help message
+  -V, --version        Show version number
   -c, --channel <name> Target config file ~/.serun/<name> (default: global)
 
 Actions:
@@ -80,7 +83,13 @@ function main(args) {
   const program = parseProgram(args, [
     ["help", "h", false],
     ["channel", "c", true],
+    ["version", "V", false],
   ]);
+
+  if (program.options.version) {
+    console.log(pkg.version);
+    process.exit(0);
+  }
 
   if (
     program.empty ||
