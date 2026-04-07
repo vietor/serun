@@ -14,9 +14,9 @@ npm install -g @vietor/serun
 
 ## Quick Start
 
-1. Set the master key environment variable:
+1. Set the safe key environment variable:
 ```bash
-export SERUN_SAFEKEY="your-master-password"
+export SERUN_SAFEKEY="your-safe-key"
 ```
 
 2. Configure environment variables:
@@ -89,7 +89,7 @@ Examples:
 
 | Variable | Description |
 |----------|-------------|
-| `SERUN_SAFEKEY` | Master password for encrypting/decrypting environment variables |
+| `SERUN_SAFEKEY` | Safe key for encrypting/decrypting environment variables |
 
 ## Storage
 
@@ -100,5 +100,5 @@ Environment variables are stored encrypted in:
 ## Security
 
 - All environment variables are encrypted using AES-256-CBC
-- The master key (`SERUN_SAFEKEY`) is never stored on disk
+- The safe key (`SERUN_SAFEKEY`) is never stored on disk
 - Each channel provides isolated environment variable sets
