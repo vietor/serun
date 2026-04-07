@@ -4,6 +4,7 @@ const fs = require("fs");
 const {
   parseProgram,
   readSysEnv,
+  EnvHub,
   readEnvs,
   updateEnvs,
   deleteEnvs,
@@ -42,9 +43,9 @@ Examples:
   process.exit(0);
 }
 
-function showEnvs(envs) {
-  Object.keys(envs).forEach((key) => {
-    console.log(key + "=" + envs[key]);
+function showEnvs(envHub) {
+  envHub.forEach((key, value) => {
+    console.log(key + "=" + value);
   });
 }
 
@@ -53,30 +54,14 @@ function parseEnvFile(filePath) {
     throw new Error(`File not found: ${filePath}`);
   }
 
-  const envs = {};
+  const envHub = new EnvHub();
 
   const content = fs.readFileSync(filePath, "utf8");
   for (const line of content.split("\n")) {
-    const trimmedLine = line.trim();
-
-    if (trimmedLine === "" || trimmedLine.startsWith("#")) {
-      continue;
-    }
-
-    const eqIndex = trimmedLine.indexOf("=");
-    if (eqIndex === -1) {
-      continue;
-    }
-
-    const key = trimmedLine.slice(0, eqIndex).trim();
-    const value = trimmedLine.slice(eqIndex + 1).trim();
-
-    if (key) {
-      envs[key] = value;
-    }
+    envHub.parseLine(line);
   }
 
-  return envs;
+  return envHub;
 }
 
 function main(args) {
@@ -115,9 +100,10 @@ function main(args) {
       showHelp();
     }
 
-    updateEnvs(safeKey, program.options.channel, {
-      [program.commandArgs[0]]: program.commandArgs[1],
-    });
+    const envHub = new EnvHub();
+    envHub.set(program.commandArgs[0], program.commandArgs[1]);
+
+    updateEnvs(safeKey, program.options.channel, envHub);
   } else if (program.command === "del" || program.command === "delete") {
     if (program.commandArgs.length < 1) {
       showHelp();

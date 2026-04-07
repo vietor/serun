@@ -51,8 +51,8 @@ function main(args) {
   }
 
   const safeKey = readSysEnv("SERUN_SAFEKEY");
-  const allEnvs = loadAllEnvs(safeKey, program.options.channel);
-  executeCommand(program.command, program.commandArgs, allEnvs);
+  const envHub = loadAllEnvs(safeKey, program.options.channel);
+  executeCommand(program.command, program.commandArgs, envHub);
 }
 
 main(process.argv.slice(2));
